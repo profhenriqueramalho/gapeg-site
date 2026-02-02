@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GAPEG | Grupo Amazônico de Pesquisas Geoespaciais</title>
+  <meta name="description" content="Grupo Amazônico de Pesquisas Geoespaciais (GAPEG) - UFOPA. Geotecnologias aplicadas às análises ambientais e florestais na Amazônia." />
+
+  <style>
+    :root{
+      --green:#0E5A22;
+      --yellow:#F9C123;
+      --brown:#8D5B23;
+      --beige:#F9F4CC;
+
+      --bg:#0b0f0d;
+      --card:#111816;
+      --text:#EAF3ED;
+      --muted:#B9C6BE;
+      --line:rgba(255,255,255,.10);
+
+      --max:1120px;
+      --radius:18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; background:linear-gradient(180deg, #070a08 0%, #0b0f0d 50%, #070a08 100%); color:var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:var(--max); margin:0 auto; padding:0 18px; }
+
+    header{
+      position:sticky; top:0; z-index:20;
+      background:rgba(7,10,8,.72);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:12px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{
+      width:40px; height:40px; border-radius:12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(249,193,35,.35), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(14,90,34,.45), transparent 55%),
+        linear-gradient(135deg, rgba(249,244,204,.20), rgba(141,91,35,.18));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow: var(--shadow);
+    }
+    .brand h1{ font-size:15px; margin:0; letter-spacing:.2px; }
+    .brand p{ font-size:12px; margin:2px 0 0; color:var(--muted); }
+
+    nav{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
+    nav a{
+      font-size:13px; color:var(--muted);
+      padding:8px 10px; border-radius:12px;
+      border:1px solid transparent;
+    }
+    nav a:hover{ color:var(--text); border-color:rgba(255,255,255,.14); background:rgba(255,255,255,.04); }
+
+    .lang{
+      display:flex; gap:8px; align-items:center;
+      padding-left:8px; border-left:1px solid var(--line);
+      margin-left:6px;
+    }
+    .pill{
+      font-size:12px;
+      padding:7px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill.active{ color:var(--text); border-color:rgba(249,193,35,.45); background:rgba(249,193,35,.10); }
+
+    .hero{
+      padding:58px 0 26px;
+      position:relative;
+      overflow:hidden;
+      border-bottom:1px solid var(--line);
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:-80px -80px auto -80px;
+      height:320px;
+      background:
+        radial-gradient(closest-side at 22% 30%, rgba(14,90,34,.55), transparent 60%),
+        radial-gradient(closest-side at 55% 18%, rgba(249,193,35,.35), transparent 62%),
+        radial-gradient(closest-side at 78% 40%, rgba(141,91,35,.45), transparent 60%);
+      filter: blur(2px);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap:18px;
+      align-items:stretch;
+      position:relative;
+    }
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns:1fr; }
+      nav{ justify-content:flex-start; }
+      .lang{ border-left:none; padding-left:0; margin-left:0; }
+    }
+    .hero h2{
+      font-size:34px; line-height:1.1;
+      margin:0 0 10px;
+      letter-spacing:-.6px;
+    }
+    .hero p{ margin:0 0 16px; color:var(--muted); font-size:15px; line-height:1.55; }
+    .chips{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+    .chip{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+    .cta-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      font-size:13px;
+    }
+    .btn.primary{
+      border-color:rgba(249,193,35,.55);
+      background:rgba(249,193,35,.14);
+    }
+    .btn:hover{ filter:brightness(1.06); }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero-card{ padding:16px; }
+    .kv{ display:grid; grid-template-columns: 1fr; gap:10px; }
+    .kv .item{ padding:10px 12px; border-radius:14px; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.08); }
+    .kv .k{ font-size:11px; color:var(--muted); margin:0 0 4px; }
+    .kv .v{ font-size:13px; margin:0; color:var(--text); }
+
+    section{ padding:26px 0; }
+    .section-title{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .section-title h3{ margin:0; font-size:18px; letter-spacing:-.2px; }
+    .section-title p{ margin:0; color:var(--muted); font-size:13px; }
+
+    .grid-3{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
+    .grid-2{ display:grid; grid-template-columns: repeat(2, 1fr); gap:14px; }
+    @media (max-width: 900px){
+      .grid-3, .grid-2{ grid-template-columns:1fr; }
+    }
+    .box{ padding:16px; }
+    .box h4{ margin:0 0 8px; font-size:14px; }
+    .box p{ margin:0; color:var(--muted); font-size:13px; line-height:1.55; }
+    .list{ margin:10px 0 0; padding:0 0 0 18px; color:var(--muted); font-size:13px; line-height:1.55; }
+    .list li{ margin:6px 0; }
+
+    .badges{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .badge{
+      font-size:12px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+    }
+
+    .palette{
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:10px;
+      padding:16px;
+    }
+    @media (max-width: 720px){
+      .palette{ grid-template-columns: repeat(2, 1fr); }
+    }
+    .swatch{
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+    }
+    .swatch .color{ height:54px; }
+    .swatch .meta{ padding:10px 10px 12px; }
+    .swatch .meta .name{ font-size:12px; margin:0 0 4px; }
+    .swatch .meta .hex{ font-size:12px; margin:0; color:var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+    footer{
+      padding:26px 0 40px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* language toggle */
+    [data-lang]{ display:none; }
+    [data-lang].show{ display:block; }
+    .muted{ color:var(--muted); }
+    .note{ font-size:12px; color:var(--muted); margin-top:10px; }
+
+    /* anchor offsets for sticky header */
+    .anchor{ scroll-margin-top:90px; }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>GAPEG</h1>
+          <p>Geotecnologias aplicadas às análises ambientais e florestais</p>
+        </div>
+      </div>
+
+      <nav aria-label="Navegação principal">
+        <a href="#sobre">Quem somos</a>
+        <a href="#linhas">Linhas</a>
+        <a href="#capes">Alinhamento CAPES</a>
+        <a href="#metas">Metas</a>
+        <a href="#equipe">Equipe</a>
+        <a href="#identidade">Identidade</a>
+        <a href="#contato">Contato</a>
+
+        <div class="lang" aria-label="Idioma">
+          <div class="pill active" id="btn-pt" role="button" tabindex="0">PT</div>
+          <div class="pill" id="btn-en" role="button" tabindex="0">EN</div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div data-lang="pt" class="show">
+            <h2>Grupo Amazônico de Pesquisas Geoespaciais</h2>
+            <p>
+              O GAPEG é um grupo de pesquisa com foco no uso de geotecnologias para monitoramento, análise e modelagem
+              de fenômenos ambientais e florestais na Amazônia, fortalecendo a produção científica regional e o suporte
+              à tomada de decisão baseada em evidências.
+            </p>
+            <div class="chips">
+              <span class="chip">UFOPA</span>
+              <span class="chip">CNPq</span>
+              <span class="chip">Sensoriamento remoto</span>
+              <span class="chip">SIG e modelagem ambiental</span>
+              <span class="chip">Manejo e conservação</span>
+            </div>
+            <div class="cta-row">
+              <a class="btn primary" href="#capes">Ver alinhamento CAPES</a>
+              <a class="btn" href="#metas">Metas e indicadores</a>
+              <a class="btn" href="#contato">Parcerias e editais</a>
+            </div>
+            <p class="note">
+              Site estruturado para uso institucional, editais e visibilidade científica, com versão bilíngue.
+            </p>
+          </div>
+
+          <div data-lang="en">
+            <h2>Amazonian Geospatial Research Group</h2>
+            <p>
+              GAPEG focuses on geotechnologies for monitoring, analyzing, and modeling environmental and forest dynamics
+              in the Amazon, strengthening regional scientific leadership and evidence-based decision support.
+            </p>
+            <div class="chips">
+              <span class="chip">UFOPA</span>
+              <span class="chip">CNPq</span>
+              <span class="chip">Remote sensing</span>
+              <span class="chip">GIS and environmental modeling</span>
+              <span class="chip">Forest management and conservation</span>
+            </div>
+            <div class="cta-row">
+              <a class="btn primary" href="#capes">CAPES alignment</a>
+              <a class="btn" href="#metas">Goals and indicators</a>
+              <a class="btn" href="#contato">Partnerships and calls</a>
+            </div>
+            <p class="note">
+              Institutional-ready website, designed for research calls and scientific visibility, with bilingual content.
+            </p>
+          </div>
+        </div>
+
+        <aside class="card hero-card" aria-label="Resumo institucional">
+          <div class="kv">
+            <div class="item">
+              <p class="k">Área predominante</p>
+              <p class="v">Ciências Agrárias / Recursos Florestais e Engenharia Florestal</p>
+            </div>
+            <div class="item">
+              <p class="k">Linha de pesquisa</p>
+              <p class="v">Geotecnologias aplicadas ao manejo e conservação dos recursos florestais</p>
+            </div>
+            <div class="item">
+              <p class="k">Ano de criação</p>
+              <p class="v">2024</p>
+            </div>
+            <div class="item">
+              <p class="k">Sede</p>
+              <p class="v">Santarém – Pará, Brasil</p>
+            </div>
+            <div class="item">
+              <p class="k">Conexão institucional</p>
+              <p class="v">Estruturado para PPGCTIF, CNPq e editais</p>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <section id="sobre" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Quem somos</h3>
+        <p>Justificativa, posicionamento regional e competência técnica</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Apresentação</h4>
+            <p>
+              O GAPEG foi criado para enfrentar a lacuna na produção científica sobre a Amazônia conduzida a partir da própria região,
+              ampliando o protagonismo local no monitoramento e na pesquisa do bioma. Atuamos com sensoriamento remoto,
+              geoprocessamento, cartografia e modelagem ambiental, produzindo dados e metodologias para gestão sustentável
+              e tomada de decisão com alta qualidade técnica.
+            </p>
+          </div>
+          <div data-lang="en">
+            <h4>Overview</h4>
+            <p>
+              GAPEG was established to address a major gap in Amazon research by strengthening local scientific leadership
+              in monitoring and environmental analysis. We work with remote sensing, GIS, cartography, and environmental modeling,
+              producing high-quality geospatial data and methodologies to support sustainable management and decision-making.
+            </p>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Missão, visão e valores</h4>
+            <p class="muted">
+              Missão: fomentar o desenvolvimento sustentável na Amazônia, usando geotecnologias para apoiar a gestão ambiental e a preservação dos recursos naturais.
+            </p>
+            <p class="muted" style="margin-top:8px;">
+              Visão: ser reconhecido como centro de excelência em pesquisas geoespaciais aplicadas ao contexto amazônico, contribuindo para conservação e desenvolvimento regional.
+            </p>
+            <div class="badges">
+              <span class="badge">Sustentabilidade</span>
+              <span class="badge">Inovação</span>
+              <span class="badge">Colaboração</span>
+              <span class="badge">Ética</span>
+              <span class="badge">Excelência</span>
+            </div>
+          </div>
+
+          <div data-lang="en">
+            <h4>Mission, vision and values</h4>
+            <p class="muted">
+              Mission: foster sustainable development in the Amazon by using geotechnologies to provide reliable information that supports environmental management and conservation.
+            </p>
+            <p class="muted" style="margin-top:8px;">
+              Vision: be recognized as a center of excellence in geospatial research in the Amazon context, contributing to environmental conservation and regional development.
+            </p>
+            <div class="badges">
+              <span class="badge">Sustainability</span>
+              <span class="badge">Innovation</span>
+              <span class="badge">Collaboration</span>
+              <span class="badge">Ethics</span>
+              <span class="badge">Excellence</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="linhas" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Linhas de pesquisa</h3>
+        <p>Estrutura pronta para preencher com projetos e resultados</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Sensoriamento remoto e monitoramento ambiental</h4>
+            <p>Mapeamento e análise espaço-temporal de cobertura vegetal, degradação, dinâmica do uso da terra e indicadores ambientais.</p>
+          </div>
+          <div data-lang="en">
+            <h4>Remote sensing and environmental monitoring</h4>
+            <p>Spatiotemporal mapping of vegetation cover, degradation, land-use dynamics, and environmental indicators.</p>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>SIG, cartografia e modelagem ambiental</h4>
+            <p>Modelos espaciais, análise multicritério, estatística espacial e metodologias para representar processos ambientais complexos.</p>
+          </div>
+          <div data-lang="en">
+            <h4>GIS, cartography and environmental modeling</h4>
+            <p>Spatial modeling, multicriteria analysis, spatial statistics, and methods to represent complex environmental processes.</p>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Manejo, conservação e planejamento territorial</h4>
+            <p>Geotecnologias aplicadas ao manejo e conservação de recursos florestais, subsidiando políticas públicas e gestão territorial.</p>
+          </div>
+          <div data-lang="en">
+            <h4>Forest management, conservation and land planning</h4>
+            <p>Geotechnologies applied to forest resources management and conservation, supporting policy and territorial governance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capes" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Alinhamento CAPES e estrutura para PPGCTIF, CNPq e editais</h3>
+        <p>Texto pensado para autoavaliação, evidências e captação</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Enquadramento para avaliação CAPES</h4>
+            <ul class="list">
+              <li>Proposta do programa: o grupo organiza e integra agenda de pesquisa geoespacial aplicada ao contexto amazônico, alinhada a demandas regionais e lacunas científicas.</li>
+              <li>Formação: foco em capacitação contínua em geotecnologias, com trilhas de aprendizagem, participação discente em projetos e produção técnica e científica.</li>
+              <li>Impacto: geração de dados e metodologias para apoiar gestão ambiental e conservação, com potencial de aplicação por órgãos públicos, ONGs e setor produtivo.</li>
+              <li>Inovação: desenvolvimento de metodologias, integração de múltiplas fontes de dados e estruturação de plataforma aberta de dados geoespaciais.</li>
+            </ul>
+          </div>
+          <div data-lang="en">
+            <h4>CAPES-oriented framing</h4>
+            <ul class="list">
+              <li>Program proposal: the group consolidates a geospatial research agenda tailored to Amazon-specific demands and scientific gaps.</li>
+              <li>Training: continuous capacity building in geotechnologies, with student engagement in projects and scientific/technical outputs.</li>
+              <li>Impact: high-quality data and methods to support environmental governance, conservation, and decision-making with stakeholders.</li>
+              <li>Innovation: new methodologies, multi-source data integration, and an open geospatial data platform.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Pronto para CNPq e editais</h4>
+            <ul class="list">
+              <li>Objetivo geral e objetivos específicos já estruturados para narrativa de chamadas e planos de trabalho.</li>
+              <li>Metas quantificadas para 5 anos, úteis como indicadores de desempenho e resultados esperados.</li>
+              <li>Estratégia de parcerias e fortalecimento de ambientes de pesquisa, coerente com captação via editais.</li>
+              <li>Seção de projetos preparada para inserir financiadores, produtos e evidências (mapas, relatórios, artigos, cursos, plataforma).</li>
+            </ul>
+          </div>
+          <div data-lang="en">
+            <h4>Ready for CNPq and funding calls</h4>
+            <ul class="list">
+              <li>General and specific objectives structured for calls and work plans.</li>
+              <li>Five-year quantified goals supporting performance indicators and expected outcomes.</li>
+              <li>Partnership and lab strengthening strategy aligned with funding acquisition.</li>
+              <li>Project section designed for funders, deliverables, and evidence (maps, reports, papers, training, platform).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">
+        Dica prática para CAPES: na página “Projetos”, inclua para cada projeto um bloco com evidências (link para artigo, DOI, mapa, relatório, repositório, capacitações e impacto local).
+      </p>
+
+    </div>
+  </section>
+
+  <section id="metas" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Metas (5 anos) e indicadores</h3>
+        <p>Transparência e mensuração de resultados</p>
+      </div>
+
+      <div class="card box">
+        <div data-lang="pt" class="show">
+          <ul class="list">
+            <li>Publicar 30 artigos científicos em periódicos de alto impacto.</li>
+            <li>Publicar 5 livros especializados em geotecnologias aplicadas à Amazônia.</li>
+            <li>Realizar 4 eventos científicos (congressos, simpósios e workshops).</li>
+            <li>Desenvolver 10 projetos de pesquisa colaborativa (nacionais e internacionais).</li>
+            <li>Formar 50 pesquisadores por cursos, treinamentos e workshops.</li>
+            <li>Criar uma plataforma aberta de dados geoespaciais da Amazônia.</li>
+            <li>Submeter 5 propostas de financiamento.</li>
+            <li>Publicar 20 resumos e artigos em conferências.</li>
+            <li>Estabelecer 10 parcerias estratégicas.</li>
+            <li>Realizar 5 estudos de caso regionais.</li>
+            <li>Desenvolver 3 metodologias inovadoras de mapeamento e monitoramento.</li>
+            <li>Criar uma rede de colaboração regional.</li>
+          </ul>
+        </div>
+
+        <div data-lang="en">
+          <ul class="list">
+            <li>Publish 30 high-impact journal articles.</li>
+            <li>Publish 5 specialized books on Amazon-focused geotechnologies.</li>
+            <li>Host 4 scientific events (congresses, symposia, workshops).</li>
+            <li>Develop 10 collaborative research projects (national and international).</li>
+            <li>Train 50 researchers through courses and workshops.</li>
+            <li>Build an open geospatial data platform for the Amazon.</li>
+            <li>Submit 5 funding proposals.</li>
+            <li>Publish 20 conference papers/abstracts.</li>
+            <li>Establish 10 strategic partnerships.</li>
+            <li>Conduct 5 regional case studies.</li>
+            <li>Develop 3 innovative mapping/monitoring methodologies.</li>
+            <li>Create a regional collaboration network.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipe" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Equipe</h3>
+        <p>Estrutura para Lattes/ORCID e participação discente</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Liderança</h4>
+            <ul class="list">
+              <li>Líder: Prof. Dr. Antonio Henrique Cordeiro Ramalho (UFOPA)</li>
+              <li>Vice-líder: Prof. Dr. Evandro Ferreira da Silva (UFPA)</li>
+            </ul>
+            <p class="note">Você pode inserir aqui os links do Lattes e ORCID de cada um.</p>
+          </div>
+          <div data-lang="en">
+            <h4>Leadership</h4>
+            <ul class="list">
+              <li>Leader: Prof. Dr. Antonio Henrique Cordeiro Ramalho (UFOPA)</li>
+              <li>Co-leader: Prof. Dr. Evandro Ferreira da Silva (UFPA)</li>
+            </ul>
+            <p class="note">Add Lattes and ORCID links for each member.</p>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Pesquisadores envolvidos</h4>
+            <ul class="list">
+              <li>Antonio Henrique Cordeiro Ramalho (UFOPA)</li>
+              <li>Evandro Ferreira da Silva (UFPA)</li>
+              <li>Anelena Lima de Carvalho (UFAC)</li>
+              <li>Quétila Souza Barros (INPA)</li>
+              <li>Bruno Lima da Silva (UFOPA)</li>
+              <li>Duanne Karine dos Anjos Colares (UFOPA)</li>
+              <li>José Maria Franco Santos Júnior (UFOPA)</li>
+              <li>Tatiane de Sousa Rocha (UFOPA)</li>
+              <li>Wesley Lopes Pinto (UFOPA)</li>
+            </ul>
+          </div>
+
+          <div data-lang="en">
+            <h4>Researchers</h4>
+            <ul class="list">
+              <li>Antonio Henrique Cordeiro Ramalho (UFOPA)</li>
+              <li>Evandro Ferreira da Silva (UFPA)</li>
+              <li>Anelena Lima de Carvalho (UFAC)</li>
+              <li>Quétila Souza Barros (INPA)</li>
+              <li>Bruno Lima da Silva (UFOPA)</li>
+              <li>Duanne Karine dos Anjos Colares (UFOPA)</li>
+              <li>José Maria Franco Santos Júnior (UFOPA)</li>
+              <li>Tatiane de Sousa Rocha (UFOPA)</li>
+              <li>Wesley Lopes Pinto (UFOPA)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="identidade" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Identidade visual</h3>
+        <p>Paleta pronta para Google Sites e materiais do grupo</p>
+      </div>
+
+      <div class="card">
+        <div class="palette">
+          <div class="swatch">
+            <div class="color" style="background:var(--green)"></div>
+            <div class="meta">
+              <p class="name">Verde</p>
+              <p class="hex">#0E5A22</p>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="color" style="background:var(--yellow)"></div>
+            <div class="meta">
+              <p class="name">Amarelo</p>
+              <p class="hex">#F9C123</p>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="color" style="background:var(--brown)"></div>
+            <div class="meta">
+              <p class="name">Marrom</p>
+              <p class="hex">#8D5B23</p>
+            </div>
+          </div>
+          <div class="swatch">
+            <div class="color" style="background:var(--beige)"></div>
+            <div class="meta">
+              <p class="name">Bege</p>
+              <p class="hex">#F9F4CC</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="note">
+        Sugestão de layout no Google Sites: fundo claro (bege) com títulos em verde, destaques e botões em amarelo, separadores e ícones em marrom.
+        Use seções em blocos (cards) e bastante espaçamento vertical.
+      </p>
+    </div>
+  </section>
+
+  <section id="contato" class="anchor">
+    <div class="wrap">
+      <div class="section-title">
+        <h3>Contato</h3>
+        <p>Parcerias, editais e colaborações</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Endereço institucional</h4>
+            <p>Rua Vera Paz, Bairro Salé, Santarém – PA, CEP 68040-255</p>
+            <p class="muted" style="margin-top:10px;">E-mail: a definir</p>
+            <p class="muted">Home page e redes sociais: a definir</p>
+          </div>
+          <div data-lang="en">
+            <h4>Institutional address</h4>
+            <p>Rua Vera Paz, Salé District, Santarém – Pará, Brazil, 68040-255</p>
+            <p class="muted" style="margin-top:10px;">Email: to be defined</p>
+            <p class="muted">Website and social media: to be defined</p>
+          </div>
+        </div>
+
+        <div class="card box">
+          <div data-lang="pt" class="show">
+            <h4>Chamada para parcerias</h4>
+            <p>
+              O GAPEG busca parcerias com instituições públicas, centros de pesquisa, ONGs e setor produtivo para
+              projetos colaborativos, desenvolvimento de metodologias, capacitações e produtos técnico-científicos,
+              com foco no monitoramento ambiental e na gestão sustentável da Amazônia.
+            </p>
+          </div>
+          <div data-lang="en">
+            <h4>Partnerships</h4>
+            <p>
+              GAPEG welcomes partnerships with public agencies, research centers, NGOs, and the private sector for
+              collaborative projects, methods development, training, and technical-scientific deliverables,
+              focusing on Amazon environmental monitoring and sustainable governance.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div data-lang="pt" class="show">
+      <div>GAPEG | Grupo Amazônico de Pesquisas Geoespaciais – UFOPA</div>
+      <div class="muted" style="margin-top:6px;">Conteúdo institucional estruturado para PPGCTIF, CNPq e editais. Versão bilíngue PT/EN.</div>
+    </div>
+    <div data-lang="en">
+      <div>GAPEG | Amazonian Geospatial Research Group – UFOPA</div>
+      <div class="muted" style="margin-top:6px;">Institutional content designed for PPGCTIF, CNPq and funding calls. Bilingual PT/EN.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    const btnPT = document.getElementById('btn-pt');
+    const btnEN = document.getElementById('btn-en');
+
+    const setLang = (lang) => {
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        el.classList.remove('show');
+        if(el.getAttribute('data-lang') === lang) el.classList.add('show');
+      });
+      btnPT.classList.toggle('active', lang === 'pt');
+      btnEN.classList.toggle('active', lang === 'en');
+      document.documentElement.lang = (lang === 'pt') ? 'pt-BR' : 'en';
+    };
+
+    const clickPT = () => setLang('pt');
+    const clickEN = () => setLang('en');
+
+    btnPT.addEventListener('click', clickPT);
+    btnEN.addEventListener('click', clickEN);
+
+    btnPT.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') clickPT(); });
+    btnEN.addEventListener('keydown', (e)=>{ if(e.key === 'Enter' || e.key === ' ') clickEN(); });
+  })();
+</script>
+
+</body>
+</html>
